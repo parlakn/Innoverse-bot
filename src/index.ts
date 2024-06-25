@@ -5,12 +5,12 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.once('ready', () => {
     console.log('bot started now !');
     
-    const pingCommand = new SlashCommandBuilder()
+    const helpCommand = new SlashCommandBuilder()
         .setName('help')
         .setDescription('help command!');
     
     const guildId = '1236344772331831428';
-    const commands = [pingCommand.toJSON()];
+    const commands = [helpCommand.toJSON()];
     
     client.guilds.cache.get(guildId)?.commands.set(commands)
         .then(() => console.log(''))
