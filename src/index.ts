@@ -1,57 +1,31 @@
-import { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, CommandInteraction, Interaction } from 'discord.js';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-});
+const { Client, GatewayIntentBits, SlashCommandBuilder } = require('discord.js');
+const config = require('./config.json');
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once('ready', () => {
-  console.log('Innoverse Bot is now online !');
+    console.log('bot started now !');
+    
+    const pingCommand = new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('help command!');
+    
+    const guildId = '1236344772331831428';
+    const commands = [pingCommand.toJSON()];
+    
+    client.guilds.cache.get(guildId)?.commands.set(commands)
+        .then(() => console.log(''))
+        .catch(console.error);
+});
 
-  const commands = [
-    new SlashCommandBuilder()
-      .setName('readme')
-      .setDescription('Show discord server rules')
-      .toJSON(),
-  ];
 
-  const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN as string);
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
 
-  (async () => {
-    try {
-      console.log('Started refreshing application (/) commands.');
+    const { commandName } = interaction;
 
-      await rest.put(
-        Routes.applicationGuildCommands(client.user?.id || '', process.env.GUILD_ID as string),
-        { body: commands }
-      );
-
-      console.log('Successfully reloaded application (/) commands.');
-    } catch (error) {
-      console.error(error);
+    if (commandName === 'help') {
+        await interaction.reply('help command :D');
     }
-  })();
 });
 
-client.on('interactionCreate', async (interaction: Interaction) => {
-  if (!interaction.isCommand()) return;
-
-  const command = interaction.commandName;
-
-  if (command === 'readme') {
-    await interaction.reply({
-      content: '### The rules of discord server:\n1. Be respectful to moderators and others\n2. No spam or no ads on the server\n3. No overly violent or NSFW content\n4. No fight',
-      ephemeral: true,
-    });
-  }
-});
-
-client.login(process.env.DISCORD_TOKEN).catch((error) => {
-  console.error('Failed to start the Innoverse Bot:', error);
-});
+client.login(config.token);
