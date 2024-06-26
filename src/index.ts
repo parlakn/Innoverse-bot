@@ -1,12 +1,22 @@
-const { Client, GatewayIntentBits, SlashCommandBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, SlashCommandBuilder, PresenceUpdateStatus, ActivityType } = require('discord.js');
 const config = require('./config.json');
 
 const client = new Client({ 
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] 
 });
 
-client.once('ready', () => {
-    console.log('bot started now !');
+client.once('ready', (c) => {
+    console.log(`${c.user.tag} has been started successfully !`);
+
+    const status = client.user.setPresence({
+        status: 'idle',
+        activities: [{
+            name: "Innoverse",
+            type: ActivityType.Streaming,
+            url: "https://innoverse.alwaysdata.net",
+            state: "https://discord.gg/PzVmgwCB"
+        }]
+    });
     
     const helpCommand = new SlashCommandBuilder()
         .setName('help')
@@ -38,7 +48,17 @@ client.on('interactionCreate', async interaction => {
     } else if (commandName === 'test') {
         await interaction.reply('test');
     } else if (commandName === 'rules') {
-        await interaction.reply('later soon..');
+        await interaction.reply(`
+            @everyone
+            \n**Server Rules:**\n
+            1. Be respectful to others.\n
+            2. No spamming.\n
+            3. Respect other users and admins.\n
+            4. No homophobic or racist remarks.\n
+            5. If you don't like the project, instead of criticizing, just leave the server.\n
+            6. Remember that RubyNetwork sucks.\n
+            
+            \n😺 **Then enjoy on this server :3.**`);
     }
 });
 
