@@ -43,3 +43,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(config.token);
+
+client.login(config.token).catch(err => {
+    console.error('Error when the bot started :', err);
+});
