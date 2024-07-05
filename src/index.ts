@@ -44,7 +44,8 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'help') {
-        await interaction.reply('What i can do ?');
+        await interaction.reply('/test (test message)');
+        await interaction.reply('/hello (for say hello to me)');
     } else if (commandName === 'test') {
         await interaction.reply('test');
     } else if (commandName === 'rules') {
@@ -59,6 +60,8 @@ client.on('interactionCreate', async interaction => {
             6. Remember that RubyNetwork sucks.\n
             
             \n😺 **Then enjoy on this server :3.**`);
+    } else if (commandName == 'hello') {
+        await interaction.reply('hello :D');
     }
 });
 
