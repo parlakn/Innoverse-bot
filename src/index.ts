@@ -6,10 +6,11 @@ const client = new Client({
 });
 
 client.once('ready', (c) => {
-    console.log(`${c.user.tag} has been started successfully !`);
+    console.log(`${c.user.tag} has been started successfully on the discord server !`);
+    console.log(`source code of bot => https://github.com/InnoverseTeam/Innoverse-bot`);
 
     const status = client.user.setPresence({
-        status: 'idle',
+        status: 'online',
         activities: [{
             name: "Innoverse",
             type: ActivityType.Streaming,
@@ -20,7 +21,7 @@ client.once('ready', (c) => {
     
     const helpCommand = new SlashCommandBuilder()
         .setName('help')
-        .setDescription('Help command');
+        .setDescription('help command');
     
     const testCommand = new SlashCommandBuilder()
         .setName('test')
@@ -28,10 +29,14 @@ client.once('ready', (c) => {
 
     const rulesCommand = new SlashCommandBuilder()
         .setName('rules')
-        .setDescription('show discord server rules !');
+        .setDescription('for discord server rules !');
+
+    const githubCommand = new SlashCommandBuilder()
+        .setName('github')
+        .setDescription('this is github from InnoverseTeam !');
     
     const guildId = '1236344772331831428'; 
-    const commands = [helpCommand.toJSON(), testCommand.toJSON(), rulesCommand.toJSON()];
+    const commands = [helpCommand.toJSON(), testCommand.toJSON(), rulesCommand.toJSON(), githubCommand.toJSON()];
     
     client.guilds.cache.get(guildId)?.commands.set(commands)
         .then(() => console.log(''))
@@ -44,8 +49,9 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'help') {
-        await interaction.reply('/test (test message)');
-        await interaction.reply('/hello (for say hello to me)');
+        await interaction.reply('/test (test message).');
+        await interaction.reply('/hello (for say hello to me).');
+        await interaction.reply('/github (for go to our github project).');
     } else if (commandName === 'test') {
         await interaction.reply('test');
     } else if (commandName === 'rules') {
@@ -60,8 +66,8 @@ client.on('interactionCreate', async interaction => {
             6. Remember that RubyNetwork sucks.\n
             
             \n😺 **Then enjoy on this server :3.**`);
-    } else if (commandName == 'hello') {
-        await interaction.reply('hello :D');
+    } else if (commandName == 'github') {
+        await interaction.reply('https://github.com/InnoverseTeam');
     }
 });
 
