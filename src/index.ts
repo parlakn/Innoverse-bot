@@ -14,8 +14,8 @@ client.once('ready', (c) => {
         activities: [{
             name: "Innoverse",
             type: ActivityType.Streaming,
-            url: "https://innoverse.alwaysdata.net",
-            state: "https://discord.gg/PzVmgwCB"
+            url: "https://innoverse.club",
+            state: "https://discord.gg/FEYCEfNh"
         }]
     });
     
